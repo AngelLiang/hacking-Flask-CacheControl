@@ -23,6 +23,7 @@ class SetCacheControlHeadersFromTimedeltaCallback(CallbackBase):
     #----------------------------------------------------------------------
     def __call__(self, response):
         response.expires = datetime.utcnow() + self._timedelta
+        # 使用了 response.cache_control.max_age
         response.cache_control.max_age = int(self._timedelta.total_seconds())
 
 
@@ -38,7 +39,9 @@ class SetCacheControlHeadersCallback(CallbackBase):
         cache_control = response.cache_control
         for attr_name, value in self._cache_control_kw.items():
             if not hasattr(cache_control, attr_name):
+                # 如果 cache_control 没有该属性则抛出异常
                 raise CacheControlAttributeInvalidError(attr_name)
+            # 设置属性
             setattr(cache_control, attr_name, value)
 
 

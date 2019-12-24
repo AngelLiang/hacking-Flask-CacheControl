@@ -102,8 +102,10 @@ class FlaskCacheControl(object):
 
     #----------------------------------------------------------------------
     def _register_request_handler(self, app):
+        """注册请求处理器"""
         app.before_request(AfterThisRequestRequestHandler())
 
     #----------------------------------------------------------------------
     def _register_response_handler(self, app):
+        """注册响应处理器"""
         app.after_request(AfterThisRequestResponseHandler())
